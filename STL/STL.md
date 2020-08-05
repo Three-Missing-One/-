@@ -200,9 +200,19 @@
 ## unique
 * 将数组的不重复元素移到前面来，返回重复元素的首地址
 * **使用前必须排序！**
+```cpp
+    //原型： iterator unique(iterator it_1,iterator it_2);返回值是一个迭代器，
+    //它指向的是去重后容器中不重复序列的最后一个元素的下一个元素。
+    vector<int> a;
+    a.push_back(1);a.push_back(3);a.push_back(3);
+    a.push_back(4);a.push_back(4);a.push_back(5);
+    //用erase去重
+    a.erase(unique(a.begin(),a.end()),a.end());
+```
 
 ## 其他
 * __builtin_popcount() 计算一个数字的二进制中有多少个1，返回值1的个数。
 * __gcd() 自带gcd    
 #### 注意
 * 以上可能不让用
+

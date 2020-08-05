@@ -1,4 +1,7 @@
 ## 目录 <!-- omit in toc -->
+- [存图](#存图)
+  - [链式前向星](#链式前向星)
+  - [邻接表](#邻接表)
 - [二分图](#二分图)
   - [题目](#题目)
   - [无向图的最大独立集](#无向图的最大独立集)
@@ -8,7 +11,75 @@
     - [实现](#实现)
   - [定理](#定理)
     - [求补图](#求补图)
+- [最短路](#最短路)
+  - [题目](#题目-1)
+  - [最短路常用算法](#最短路常用算法)
+    - [Dijkstra](#dijkstra)
+    - [SPFA](#spfa)
+  - [Folyd](#folyd)
+  - [实现](#实现-1)
+  - [常见套路](#常见套路)
+- [LCA](#lca)
+  - [求法](#求法)
+  - [实现](#实现-2)
+- [最小生成树](#最小生成树)
+  - [算法](#算法)
+  - [实现](#实现-3)
+  - [题目](#题目-2)
+- [欧拉图](#欧拉图)
+  - [定义](#定义)
+  - [定理(前提均是图联通)](#定理前提均是图联通)
+  - [题目](#题目-3)
 
+## 存图
+### 链式前向星
+```cpp
+//链式前向星
+struct Edge{
+	int to,w,next;
+}edge[Maxn];
+int cnt=0;
+int head[Maxn];
+void init(){
+    for(int i=0;i<Maxn;++i){
+        edge[i].next=-1;
+        head[i]=-1;
+    }
+    cnt=0;
+}
+//加的单边
+void addedge(int u,int v,int w){
+    edge[cnt].next=head[u];
+    edge[cnt].to=v;
+    edge[cnt].w=w;
+    head[u]=cnt++;
+}
+//遍历节点u的所有可到达的节点
+for(int i=head[u];~i;i=edge[i].next){
+        
+}
+```
+### 邻接表
+```cpp
+//邻接表
+struct Edge{
+    int u,v,w;
+    Edge(int a,int b,int c){
+        u=a,v=b;w=c;
+    }
+};
+vector<Edge>edge[Maxn];
+//初始化
+for(int i=1;i<=n;i++){
+    edge[i].clear();
+}
+//存边
+edge[a].push_back(edge(a,b,c));
+//遍历节点u可到达的节点
+for(int i=0;i<edge[u].size();i++){
+    
+}
+```
 ## 二分图
 ### 题目
 * [Codeforces-1105E-Helping Hiasat](https://codeforces.com/problemset/problem/1105/E)
