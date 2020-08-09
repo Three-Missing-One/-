@@ -58,7 +58,7 @@
 | s.erase(first,last) | 删除由迭代器first和last所指定的子集[first, last)     |
 | s.equal_range(val)  | 返回有序/升序集合中val元素第一次和最后一次出现的位置 |
 | s.find()            | 返回一个指向被查找到元素的迭代器                     |
-| s.insert(val)       | 在集合中插入值为val的元素                            |
+| s.insert(val)       | 在集合中插入值为val的元素,返回值为pair<set<int>::iterator, bool>,pair::first 被设置为指向新插入元素的迭代器或指向等值的已经存在的元素的迭代器。成员 pair::second 是一个 bool 值，如果新的元素被插入，返回 true，如果等值元素已经存在（即无新元素插入），则返回 false。 (set.insert(x).second)                        |
 | s.max_size()        | 返回集合能容纳的元素的最大限值                       |
 | s.rbegin()          | 返回指向集合中最后一个元素的反向迭代器               |
 | s.rend()            | 返回指向集合中第一个元素的反向迭代器                 |
