@@ -1,6 +1,6 @@
 # Stern-Brocot 树
 
-![](C:\Users\hp\Desktop\Three_missing_one\图论\img\20190802152013505.png)
+![](img\20190802152013505.png)
 
 给定输入N，输出0到1之间分母小于或等于N的真分数，并排序，按照上图来看就是每一行。
 
