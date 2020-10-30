@@ -1,3 +1,4 @@
+[TOC]
 ## 输入
 ```java
 Scanner cin = new Scanner (System.in);
@@ -8,8 +9,54 @@ c = cin.nextBigInteger();
 str = cin.nextLine(); //String，注意吃掉换行符
 //高精度同理
 //sc.close(); //不close虽然警告但是好像不影响结果
+判断是否有下一个输入可以用cin.hasNext()或cin.hasNextInt()或cin.hasNextDouble()或cin.hasNextLine()
 ```
- 
+### 多组样例输入
+```java
+例1：读入整数
+Input 输入数据有多组，每组占一行，由一个整数组成。
+Sample Input
+56
+67
+100
+123
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc =new Scanner(System.in);
+        while(sc.hasNext()){ //判断是否结束
+            int score = sc.nextInt();//读入整数
+            //。。。。
+        }
+    }
+}
+
+例2：读入实数
+Sample Input
+4
+56.9 67.7 90.5 12.8
+5
+56.9 67.7 90.5 12.8
+
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+            Scanner sc =new Scanner(System.in);
+            while(sc.hasNext()){
+                int n = sc.nextInt();
+                for(int i=0;i<n;i++){
+                    double a = sc.nextDouble();
+                //。。。。。。
+            }
+        }
+    }
+}
+
+
+```
+
+
+
 ## 输出
 ```java
 System.out.print(); // cout;
@@ -30,6 +77,8 @@ public class Test
     }
 }
 ```
+
+
 
 ## 字符串
 
