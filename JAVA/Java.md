@@ -151,11 +151,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
-        
+        BigInteger i1 = new BigInteger("1234567890");//初始化
         BigInteger a = sc.nextBigInteger();
         BigInteger b = sc.nextBigInteger();
         BigInteger c = a.add(b);
         BigInteger d = a.multiply(b);
+
 
         System.out.println(a.mod(b)); //取模
         System.out.println(a.gcd(b)); //gcd
@@ -163,6 +164,12 @@ public class Main {
         System.out.println(a.compareTo(b));
         System.out.println(a.equals(b));
         System.out.println(c);
+        
+        // 转换为int：a.intValue()
+        // 转换为long：a.longValue()
+        // 转换为float：a.floatValue()
+        // 转换为double：a.doubleValue()
+        
         sc.close();
     }
 }
@@ -205,3 +212,28 @@ BigDecimal bd1 = new BigDecimal(temp1);
 System.out.println(bd1.add(bd2).doubleValue()); // 转double，16位，最后一位不精确
 ```
 加减乘除精度取最长
+
+
+# Java 排序
+```cpp
+import java.util.*;
+public class Main
+{
+	static Integer []A = null;
+	public static void main(String args[]) 
+	{
+		Scanner in = new Scanner(System.in);
+		Comparator<Integer> cmp = new Comparator<Integer>() {
+			public int compare(Integer a, Integer b) {
+				return a - b;
+			}
+		};
+		int n = in.nextInt();
+		A = new Integer [n];
+		for (int i = 0; i < n; i++) A[i] = in.nextInt();
+		Arrays.sort(A, 0, n, cmp);
+		for (Integer i : A) System.out.println(i);
+	}
+}
+
+```

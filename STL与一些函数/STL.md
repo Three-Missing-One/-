@@ -13,6 +13,7 @@
     - [三种插入操作示例](#三种插入操作示例)
     - [注意](#注意-4)
 - [list](#list)
+- [bitset](#bitset)
 - [lower_bound & upper_bound](#lower_bound--upper_bound)
     - [注意](#注意-5)
 - [pair](#pair)
@@ -182,6 +183,18 @@
 |l.erase(it)|删除（区域中的）元素|
 |l.remove(val)|删除值为val 的元素|
 
+## bitset
+其他参见《算法竞赛进阶指南》
+
+```cpp
+// 赋初值
+bitset<100>foo('1110');
+bitset<100>foo(100);
+
+foo.to_ulong() //返回它转换为unsigned long的结果，如果超出范围则报错
+foo.to_ullong() //返回它转换为unsigned long long的结果，如果超出范围则报错
+foo.to_string() //返回它转换为string的结果
+```
 
 ## lower_bound & upper_bound
 | 用法                          | 含义                                                                  |
