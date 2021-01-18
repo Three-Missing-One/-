@@ -22,6 +22,7 @@
 - [string](#string)
   - [substr ：](#substr-)
   - [replace 操作](#replace-操作)
+  - [find](#find)
 - [其他](#其他)
     - [注意](#注意-6)
 ## vector
@@ -262,28 +263,31 @@ int main ()
 
     // Using positions:                 0123456789*123456789*12345
     std::string str=base;           // "this is a test string."
-    //第9个字符以及后面的4个字符被str2代替
+    //第9个字符以及后面的长度5个字符被str2代替
     str.replace(9,5,str2);          // "this is an example string." (1)
-    //第19个字符串以及后面的5个字符用str的第7个字符以及后面的5个字符代替
-    str.replace(19,6,str3,7,6);     // "this is an example phrase." (2)
-    //第8个字符以及后面的9个字符用字符串参数代替
-    str.replace(8,10,"just a");     // "this is just a phrase."     (3)
-    //第8个字符以及后面的5个字符用字符串参数的前7个字符替换
-    str.replace(8,6,"a shorty",7);  // "this is a short phrase."    (4)
-    //第22以及后面的0个字符用3个叹号替换
-    str.replace(22,1,3,'!');        // "this is a short phrase!!!"  (5)
-    //迭代器的原理同上
-    // Using iterators:                                               0123456789*123456789*
-    str.replace(str.begin(),str.end()-3,str3);                    // "sample phrase!!!"      (1)
-    str.replace(str.begin(),str.begin()+6,"replace");             // "replace phrase!!!"     (3)
-    str.replace(str.begin()+8,str.begin()+14,"is coolness",7);    // "replace is cool!!!"    (4)
-    str.replace(str.begin()+12,str.end()-4,4,'o');                // "replace is cooool!!!"  (5)
-    str.replace(str.begin()+11,str.end(),str4.begin(),str4.end());// "replace is useful."    (6)
-    std::cout << str << '\n';   
+
     return 0;
 }
 ```
-
+### find 
+```cpp
+//查找所有子串在母串中出现的位置
+//查找s 中flag 出现的所有位置。没有返回string::npos
+    flag="a";
+    position=0;
+    int i=1;
+    while((position=s.find(flag,position))!=string::npos)
+    {
+        cout<<"position  "<<i<<" : "<<position<<endl;
+        position++;
+        i++;
+    }
+    /*
+    position 1:1
+    position 2:21
+    position 3:36
+    /*
+```
 
 ## 其他
 * __builtin_popcount() 计算一个数字的二进制中有多少个1，返回值1的个数。
