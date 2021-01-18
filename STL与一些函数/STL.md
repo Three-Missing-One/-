@@ -19,6 +19,9 @@
 - [pair](#pair)
     - [使用sort对pair类型进行排序](#使用sort对pair类型进行排序)
 - [unique](#unique)
+- [string](#string)
+  - [substr ：](#substr-)
+  - [replace 操作](#replace-操作)
 - [其他](#其他)
     - [注意](#注意-6)
 ## vector
@@ -222,6 +225,65 @@ foo.to_string() //返回它转换为string的结果
     //用erase去重
     a.erase(unique(a.begin(),a.end()),a.end());
 ```
+
+## string 
+### substr ：
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    ios::sync_with_stdio(false);
+    string s="abcdefg";
+
+    //s.substr(pos1,n)返回字符串位置为pos1后面的n个字符组成的串
+    string s2=s.substr(1,5);//bcdef
+
+    //s.substr(pos)//得到一个pos到结尾的串
+    string s3=s.substr(4);//efg
+
+    return 0;
+}
+```
+
+### replace 操作
+```cpp
+#include <iostream>
+#include <string>
+
+int main ()
+{
+    std::string base="this is a test string.";
+    std::string str2="n example";
+    std::string str3="sample phrase";
+    std::string str4="useful.";
+
+    // replace signatures used in the same order as described above:
+
+    // Using positions:                 0123456789*123456789*12345
+    std::string str=base;           // "this is a test string."
+    //第9个字符以及后面的4个字符被str2代替
+    str.replace(9,5,str2);          // "this is an example string." (1)
+    //第19个字符串以及后面的5个字符用str的第7个字符以及后面的5个字符代替
+    str.replace(19,6,str3,7,6);     // "this is an example phrase." (2)
+    //第8个字符以及后面的9个字符用字符串参数代替
+    str.replace(8,10,"just a");     // "this is just a phrase."     (3)
+    //第8个字符以及后面的5个字符用字符串参数的前7个字符替换
+    str.replace(8,6,"a shorty",7);  // "this is a short phrase."    (4)
+    //第22以及后面的0个字符用3个叹号替换
+    str.replace(22,1,3,'!');        // "this is a short phrase!!!"  (5)
+    //迭代器的原理同上
+    // Using iterators:                                               0123456789*123456789*
+    str.replace(str.begin(),str.end()-3,str3);                    // "sample phrase!!!"      (1)
+    str.replace(str.begin(),str.begin()+6,"replace");             // "replace phrase!!!"     (3)
+    str.replace(str.begin()+8,str.begin()+14,"is coolness",7);    // "replace is cool!!!"    (4)
+    str.replace(str.begin()+12,str.end()-4,4,'o');                // "replace is cooool!!!"  (5)
+    str.replace(str.begin()+11,str.end(),str4.begin(),str4.end());// "replace is useful."    (6)
+    std::cout << str << '\n';   
+    return 0;
+}
+```
+
 
 ## 其他
 * __builtin_popcount() 计算一个数字的二进制中有多少个1，返回值1的个数。
