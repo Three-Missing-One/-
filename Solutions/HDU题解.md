@@ -1,5 +1,52 @@
 [TOC]
 
+# HDU第三场
+
+## Segment Tree with Pruning
+
+补题过的，现场我们队是找规律做的，这里我给出我的记忆化搜索AC的代码
+
+就是搜过的长度就不搜了，另外ull可以到2e9，而且动态开点线段树节点个数为n的话，节点数最多为$2n-1$(蓝书上有说)
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+typedef unsigned long long ll;
+map<ll,ll>mp;
+ll n,k;
+ll dfs(ll x){
+
+    if(mp[x]!=0){
+        return mp[x]; 
+    }
+    if(x <= k){
+        return mp[x] = 1;
+    }
+    ll mid = x/2;
+    int mod = x%2;
+    if(mod==1){
+        mp[mid] = dfs(mid);
+        mp[mid+1] = dfs(mid+1);
+        return mp[mid]+mp[mid+1]+1;
+    } 
+    else {
+        mp[mid] = dfs(mid);
+        return mp[mid]*2+1;
+    }
+    
+}
+int main(){
+    int t;
+    scanf("%d",&t);
+    while(t--){
+        mp.clear();
+        scanf("%llu%llu",&n,&k);
+        ll ans = dfs(n);
+        printf("%llu\n",ans);
+    }
+}
+```
+
 # HDU第五场题解
 
 ## Cute Tree
