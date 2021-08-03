@@ -47,6 +47,132 @@ int main(){
 }
 ```
 
+# HDU第四场题解
+
+## Lawn of the Dead
+
+题意：有一个僵尸在坐标(0,0)处（左上角），他只能往左走，或者往下走，会给定一些格子这个僵尸无法走，问这个僵尸能走到的格子数
+这道题我们队开始分析的很好：因为是$1e5*1e5$的数据范围，所以没有办法搜索点数，另外，但是雷数也只有1e5，所以我们可以从可行的点数出发寻找。
+另外，在最上面那一行的的第一个点以后的点都不可达，第一列最上方以后的顶点都不可达，包括由行逐渐向下递推等思想，到时我们想状态压缩用bitset做，但是无奈，mle了bitset也开不到$1e5*1e5$的。 看了题解发现是道线段树，并且每一行递推，开两个线段树，并且向下递推，一个维护上一行的可行点，另一个对下一行进行修改，最终实现整个递推，每一行遇到一个地雷，就查询这个地雷后前可以走到的个数，并进行修改
+
+
+开了一个线段树类，更快速简单的建树
+```cpp
+#include <bits/stdc++.h>
+#define INF 0x3f3f3f3f
+using namespace std;
+typedef long long ll;
+int n,m,k;
+const int maxn = 1e5+5;
+vector<int>g[maxn];
+
+class SegmentTree{
+    public:
+
+    struct Tree{
+        int l,r;
+        int lazy;
+        int ok;
+    }tree[maxn<<2];
+    void build(int pos,int l, int r){
+        if(l==r){
+            tree[pos].l = tree[pos].r = r;
+            tree[pos].lazy = 0;
+            tree[pos].ok = 0;
+            return ;
+        }
+        tree[pos].l = l;tree[pos].r = r;
+        tree[pos].ok = tree[pos].lazy = 0;
+        int mid = (l+r)>>1;
+        build(pos<<1,l,mid);
+        build(pos<<1|1,mid+1,r);
+    }
+    void spread(int pos){
+        if(tree[pos].lazy==0)return ;
+        tree[pos<<1].ok = (tree[pos<<1].r-tree[pos<<1].l+1) * (tree[pos].lazy-1);
+        tree[pos<<1|1].ok = (tree[pos<<1|1].r-tree[pos<<1|1].l+1) * (tree[pos].lazy-1);
+        tree[pos<<1].lazy = tree[pos].lazy;
+        tree[pos<<1|1].lazy = tree[pos].lazy;
+        tree[pos].lazy = 0;
+    }
+    void pushup(int pos){
+        tree[pos].ok = tree[pos<<1].ok+tree[pos<<1|1].ok;
+    }
+    void update(int pos,int l,int r,int v){
+        // cout<<pos<<endl;
+        if(l<=tree[pos].l&&tree[pos].r<=r){
+            tree[pos].ok = v*len(pos);
+            tree[pos].lazy = v + 1;
+            return ;
+        }
+        spread(pos);
+        int mid = (tree[pos].l+tree[pos].r)>>1;
+        if(l<=mid)update(pos<<1,l,r,v);
+        if(r>mid)update(pos<<1|1,l,r,v);
+        pushup(pos);
+    }
+    int len(int pos){
+        return tree[pos].r-tree[pos].l+1;
+    }
+    int query(int u,int l,int r) {
+    	if(tree[u].ok==0) return INF;
+    	if(tree[u].l==tree[u].r) return tree[u].l;
+    	spread(u);
+    	if(tree[u].l>=l&&tree[u].r<=r) {
+    		if(tree[u<<1].ok>0) return query(u<<1,l,r);
+    		else return query(u<<1|1,l,r);
+    	}
+    	int ans=INF;
+        int mid = (tree[u].l+tree[u].r)>>1;
+    	if(l<=mid) ans=min(ans,query(u<<1,l,r));
+    	if(r>mid) ans=min(ans,query(u<<1|1,l,r));
+    	return ans;
+    }
+
+};
+SegmentTree t[2]; 
+int main(){
+    int tt;
+    scanf("%d",&tt);
+
+    while(tt--){
+        scanf("%d%d%d",&n,&m,&k);
+        for(int i=1;i<=n;i++) g[i].clear();
+		for(int i=1;i<=k;i++) {
+			int x,y; scanf("%d%d",&x,&y);
+			g[x].push_back(y);
+		}
+		t[0].build(1,1,m); t[1].build(1,1,m);
+		int now=0; t[now].update(1,1,1,1); now^=1;
+		ll ans=0;
+        for(int i = 1;i <= n; i++){
+            sort(g[i].begin(),g[i].end());
+            int l = 0;
+                for(auto x:g[i]) {
+                    if(l+1<=x-1) {
+                        int pos = t[now^1].query(1,l+1,x-1);
+                        if(pos!=INF) t[now].update(1,pos,x-1,1);
+                    }
+                    l=x;
+                }
+                if(l+1<=m) {
+                    int pos=t[now^1].query(1,l+1,m);
+                    if(pos!=INF) t[now].update(1,pos,m,1);
+                }
+            
+            ans+=t[now].tree[1].ok;
+            // cout<<t[now].tree[1].ok<<"##"<<endl;
+            t[now^1].update(1,1,m,0);
+            now^=1;
+        }
+        cout<<ans<<endl;
+    }
+}
+
+```
+
+
+
 # HDU第五场题解
 
 ## Cute Tree
