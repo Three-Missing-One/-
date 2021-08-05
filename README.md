@@ -1,6 +1,6 @@
 Majiang Three Missing one 😋
 
-**比赛过后记得补题，并将题解上传至solutions内，注意上传规范，牛客多校题解上传至 nowcoder.md中,HDU上传至HDU题解.md中，每一场要确定补题数，与200名左右过题数相当，另外出现的新算法，合适的板子，上传至对应文件夹内**
+**比赛过后记得补题，并将题解上传至solutions内，注意上传规范，牛客多校题解上传至 /Nowcoder/nowcoder.md中，并同步更新到具体场次的题解，HDU上传至HDU题解.md中，每一场要确定补题数，与200名左右过题数相当，另外出现的新算法，合适的板子，上传至对应文件夹内**
 
 ```cpp
 /*
@@ -21,3 +21,4 @@ Majiang Three Missing one 😋
  */
 
 ```
+
