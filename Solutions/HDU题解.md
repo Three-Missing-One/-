@@ -308,3 +308,218 @@ int main()
     return 0;
 }
 ```
+
+# HDU第六场题解
+
+## A.Yes,Prime Minister
+
+**题解：**
+
+背锅的来写题解.....贡献$Wa4$的罚时......
+
+首先来说一下得出的结论：
+
+对于任意一个正数$n$，我们都有：$n + n + 1 = 2n + 1$，$n + n + 1 + n + 2 = 3n + 3 \mod 3 = 0$，$n + n + 1 + n + 2 + n + 3 = 4n + 6 \mod 2 = 0$$......$，所以我们认为：**只有连续的两个数相加才有机会成为质数**，这一点对于向左拓展也是成立的。
+
+所以我们需要做的就是以2为步长，枚举左端点，如果出现合法情况则停止枚举，更新答案。
+
+假设$l$是我们枚举的左端点，那么就有了下面我们的分析：
+
+- 如果满足：$x > 0$
+
+  - $x$为质数：则输出答案为1
+  - $x$​为合数，则左右两端分别扩展一位，若和为质数，则输出答案为2；否则令$x$右移，若先满足$2 \times l + 1$为质数，输出答案为$2 \times l + 1$，若先满足$l$为质数，则输出答案$2 \times l$
+
+- 如果满足：$x < 0$
+
+  **对$x$取绝对值**，然后同样向右拓展，和之前类似，若先满足$2 \times l + 1$为质数，输出答案为$2 \times l + 1$，若先满足$l$为质数，则输出答案$2 \times l$。​
+
+**AC代码：**
+
+```cpp
+#include <bits/stdc++.h>
+
+#define ill __int128
+#define ll long long
+#define PII pair <ll,ll>
+#define ull unsigned long long
+#define me(a,b) memset (a,b,sizeof(a))
+#define rep(i,a,b) for (int i = a;i <= b;i ++)
+#define req(i,a,b) for (int i = a;i >= b;i --)
+#define ios std :: ios :: sync_with_stdio(false)
+
+const double Exp = 1e-9;
+const ll INF = 0x3f3f3f3f;
+const int inf = -0x3f3f3f3f;
+const ll mode = 1000000007;
+const double pi = 3.141592653589793;
+
+using namespace std;
+
+const int maxm = 1e8 + 10;
+int cnt, T;
+bool jud[maxm];
+
+void prime()
+{
+    ll n = 1e8;
+    jud[1] = 1;
+    for (ll i = 2ll;i <= n;i ++) {
+        if (jud[i]) continue;
+        for (ll j = i;j <= n / i;j ++) jud[i * j] = 1;
+    }
+    return ;
+}
+
+ll solve(int l) 
+{
+    l ++;
+    while (1) {
+        if (!jud[l]) return 2ll * l;
+        else if (!jud[2 * l + 1]) return (2ll * l + 1ll);
+        l ++;
+    }
+}
+
+int main()
+{
+    prime();
+    scanf ("%d", &T);
+    while (T --) {
+        int x;
+        scanf ("%d", &x);
+        if (x == 0) {
+            printf ("3\n");
+            continue;
+        }
+        else if (x > 0 && !jud[x]) {
+            printf ("1\n");
+            continue;
+        }
+        else if (x > 0 && jud[x]) {
+            int l = x;
+            ll ans = 1e10;
+            if (!jud[2 * l + 1] || !jud[2 * l - 1]) printf ("2\n");
+            else {
+                ans = min(solve(l) * 1ll, ans);
+                printf ("%lld\n",ans);
+            }
+        }
+        else if (x < 0) {
+            x = abs(x);
+            ll ans = 1e10;
+            int l = x;
+            l ++;
+            while (1) {
+                if (!jud[l]) {
+                    ans = min(ans, 2ll * l);
+                    break;
+                }
+                else if (!jud[2 * l + 1]) ans = min(ans, 2ll * l + 1ll);
+                l ++;
+            }
+            printf ("%lld\n",ans);
+        }
+    }
+    return 0;
+}
+```
+
+## E.Median
+
+**题解：**
+
+这$n$个数最后会分成$m$个集合，我们可以通过给出的$m$个数，把这$n$个数的序列分成$m + 1$个区间，每一个区间内有的数，就是我们需要操作的数。
+
+举个例子：如果$n = 6$，$m = 2$，$b = {3,5}$那么我们可以得到的区间有：$1,2 | 4 | 6$这样的形式。这些数中任意两个不同区间的数都可以相互抵消。我们的任务就是确定能否满足中位数不变的前提下，把这$n - m$个数抵消掉。
+
+记录一下$m + 1$个区间中，含有元素最多为$max$，其他部分的和为$other$
+
+- 如果$max = other$，很明显可以抵消掉。
+- 如果$max < other$​，那么我们可以让最后剩余的元素**尽可能大**，然后加入到集合中，其实就是构造了偶数长度的序列。
+- 如果$max > other$，那最后剩下的元素肯定是在$max$中，如果想全部放好肯定需要满足：比当前区间中最小的元素还小的中位数的数目$num$满足$num >= max - other$，否则无法构造。
+
+**AC代码：**
+
+```cpp
+#include <bits/stdc++.h>
+
+#define ill __int128
+#define ll long long
+#define PII pair <ll,ll>
+#define ull unsigned long long
+#define me(a,b) memset (a,b,sizeof(a))
+#define rep(i,a,b) for (int i = a;i <= b;i ++)
+#define req(i,a,b) for (int i = a;i >= b;i --)
+#define ios std :: ios :: sync_with_stdio(false)
+
+const double Exp = 1e-9;
+const int INF = 0x3f3f3f3f;
+const int inf = -0x3f3f3f3f;
+const ll mode = 1000000007;
+const double pi = 3.141592653589793;
+
+using namespace std;
+
+const int maxn = 1e5 + 9;
+
+int T, n, m;
+int b[maxn] = {}, flag[maxn] = {}, sum[maxn] = {};
+
+void init()
+{
+    me (flag, 0);
+    me (b, 0);
+    me (sum, 0);
+    return ;
+}
+
+bool cmd (int x, int y)
+{
+    return x < y;
+}
+
+int main()
+{
+    scanf ("%d",&T);
+    while (T -- ) {
+        init();
+        scanf ("%d%d",&n,&m);
+        for (int i = 1;i <= m;i ++) {
+            scanf ("%d",&b[i]);
+            flag[b[i]] = 1;
+        }
+        sort(b + 1, b + 1 + m, cmd);
+        int cnt = 0;
+        for (int i = 1;i <= n;i ++) {
+            if (flag[i]) {
+                cnt = i;
+                continue;
+            }  
+            else sum[cnt] ++;
+        }
+        int maxx = 0, add = 0, id = 0;
+        for (int i = 0;i <= n;i ++) {
+            if (sum[i] >= maxx) {
+                maxx = sum[i];
+                id = i;
+            }
+            add += sum[i];
+        }
+        add -= maxx;
+        if (maxx <= add) printf ("YES\n");
+        else {
+            maxx -= add;
+            int num = 0;
+            for (int i = 1;i <= m;i ++) {
+                if (id >= b[i]) num ++;
+                else continue;
+            }
+            if (num >= maxx) printf ("YES\n");
+            else printf ("NO\n");
+        }
+    }
+    return 0;
+}
+```
+
