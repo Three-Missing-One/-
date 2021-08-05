@@ -523,3 +523,55 @@ int main()
 }
 ```
 
+转化成间隔，不要盲目模拟，把问题抽象化。思维能力有待加强，除了转化为间隔，还有很多我们需要注意的，比如说贪心其实是想办法让靠后的具有1这个数，而且发现%2最多就是1，然后还有就是判断能不能减完前面的数也不需要暴力，只需要把最大值减去就可以了。
+**AC代码**
+```cpp
+#include <bits/stdc++.h>
+#define lowbit(x) (x&(-x))
+using namespace std;
+const int maxn = 1e5+5;
+int a[maxn];
+int c[maxn];
+int main(){
+    int t;
+    scanf("%d",&t);
+    while(t--){
+        int n,k;
+        scanf("%d%d",&n,&k);
+        for(int i = 1;i <= k;i++){
+            scanf("%d",&a[i]);
+        }
+        sort(a+1,a+k+1);
+        int sum = 0,mx = -1,pos = -1;
+        for(int i = 1;i <= k;i++){
+            c[i] = a[i]-a[i-1]-1;
+            sum += c[i];
+            if(c[i]>mx){
+                mx = c[i];
+                pos = i;
+            }
+        }
+        c[k+1] = n-a[k];
+        sum += c[k+1];
+        if(c[k+1]>mx){
+            mx = c[k+1];
+            pos = k+1;
+        }
+        if(mx <= sum/2){
+            printf("YES\n");
+            continue;
+        }
+        else {
+            if(mx*2 - sum < pos){
+                printf("YES\n");continue;
+            }
+            else {
+                printf("NO\n");continue;
+            }
+        }       
+    }
+}
+
+```
+
+
