@@ -13,10 +13,13 @@
 - 沉下心很重要，不要过分的浮躁，过分的划水
   
 AC代码
-今天很晚了
-明天再给题解，先贴代码
 
-A
+
+### A-Ares, Toilet Ares
+
+最水的题目，大约算个连乘，在算个逆元，就可以了，注意特判x==0
+
+
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -50,7 +53,11 @@ int main(){
 }
 ```
 
-D
+# D-OR
+有$$ c[i] = a[i-1] + a[i] = a[i-1]|a[i]+a[i-1]a[i]  $$
+
+然后按位去算，算31次，然后结果相乘，然后复杂度大幅小于1e9，大约在$O(2e6)$左右
+
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -130,7 +137,8 @@ int main(){
 
 ```
 
-K
+### K-Yet Another Problem About Pi
+k题是方法有问题，也是脑子不够用，大致我们是不想浪费这个我们拥有的 $pi$这个长度的，然后我们就考虑把这个$pi$一段在边上，一段在对角线上，保证得到的数量最大就好了，按照北大想的，枚举了50次大约就够了，实际上我们确实可以这么做
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
