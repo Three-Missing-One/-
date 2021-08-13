@@ -280,3 +280,8 @@ int main()
 }
 ```
 
+## E-Tree Xor
+
+合法异或区间
+- [丢个链接](https://blog.csdn.net/hddddh/article/details/119133637?utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.base&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.base)
+
