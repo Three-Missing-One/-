@@ -230,3 +230,95 @@ int main(){
 }
 
 ```
+
+## 1004-补充线段树例题
+
+- [区间平方根求和](https://acm.hdu.edu.cn/showproblem.php?pid=4027)
+
+
+和上一题类似，原因是开根号和减lowbit都是快速递降函数，每一个点可以进行修改的次数不多，比如在long long范围内的数，开根号次数不超过64次就会恒为1，然后我们标记为1的点，然后就再也不修改了，会降低很多复杂度
+
+**AC代码**
+
+```cpp
+#include <bits/stdc++.h>
+#define ls pos<<1
+#define rs pos<<1|1
+using namespace std;
+typedef long long ll;
+const int maxn = 1e6+5;
+ll a[maxn];
+int n;
+struct Tree{
+    int l,r;
+    int lazy;
+    ll sum;
+}t[maxn<<2];
+void pushup(int pos){
+    t[pos].sum = (t[ls].sum + t[rs].sum);
+    t[pos].lazy = (t[ls].lazy&&t[rs].lazy);
+}
+void build(int pos,int l,int r){
+    t[pos].l = l;t[pos].r = r;
+    if(l==r){
+        t[pos].lazy = 0;
+        t[pos].sum = a[l];
+        if(a[l]==1)t[pos].lazy = 1;
+        return ;
+    }
+    int mid = (l+r)>>1;
+    build(ls,l,mid);
+    build(rs,mid+1,r);
+    pushup(pos);
+    return ;
+}
+void update(int pos ,int l,int r){
+    // if(t[pos].lazy)return ;
+    if(t[pos].l==t[pos].r){
+        t[pos].sum = (ll)sqrt(t[pos].sum);
+        if(t[pos].sum==1)t[pos].lazy = 1;
+        return ;
+    }
+    int mid = (t[pos].l + t[pos].r)>>1;
+    if(l<=mid&&!t[ls].lazy)update(ls,l,r);
+    if(mid<r&&!t[rs].lazy)update(rs,l,r);
+    pushup(pos);
+}
+ll query(int pos ,int l,int r){
+    if(l<=t[pos].l&&r>=t[pos].r){
+        return t[pos].sum;
+    }
+    int mid = (t[pos].l + t[pos].r)>>1;
+    ll ans = 0;
+    if(l <= mid)ans += query(ls,l,r);
+    if(r > mid)ans += query(rs,l,r);
+    return ans;
+}
+int main(){
+    int tt = 0;
+    while(~scanf("%d",&n)){
+        printf("Case #%d:\n",++tt);
+        for(int i = 1;i <= n;i++){
+            scanf("%lld",&a[i]);
+        }
+        build(1,1,n);
+        int q;
+        scanf("%d",&q);
+        for(int i = 0 ;i < q;i ++){
+            int opt,l,r;
+            scanf("%d%d%d",&opt,&l,&r);
+            if(l>r)swap(l,r);
+            if(opt==0){
+                update(1,l,r);
+            }
+            else {
+                printf("%lld\n",query(1,l,r));
+            }
+        }
+        printf("\n");
+    }
+}
+
+
+
+```
