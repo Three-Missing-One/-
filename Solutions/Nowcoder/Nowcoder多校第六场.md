@@ -244,4 +244,48 @@ int main()
     return 0;
 }
 ```
+##  Delete Edges
+&ensp;&ensp;问题等价于从1-n,n个不同的数当中每次选出3个数构成3元组。使得所有的三元组中，任意两对数的组合没有重复,然后要至少构造出$\frac{n^2-3n}{6}$个。比如n=5时，只能构成2个三元组满足要求，为：
+(1,2,5)
+(1,3,4)
+除此之外，不能再构成两个数不重复三元组了。
 
+结论：输出所有满足$x+y+z=0(mod n)$的三元组,即可满足要求。
+设$f(n)$为满足$x+y+z=0(mod n)$的三元组个数。
+
+$$ f(n)=\left\{
+\begin{array}{rcl}
+\frac{n^2-3n+6}{n} > \frac{n^2-3n}{6}     &      & {n\ mod\ 3=0}\\
+\frac{n^2-3n+2}{6}  >\frac{n^2-3n}{6} &      & {n\ mod\ 3!=0}
+\end{array} \right. $$
+[证明推导](https://blog.csdn.net/qq_60252920/article/details/119350752)
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define debug(x) cout<<"###"<<x<<"###"<<endl;
+typedef long long ll;
+const double eps=1e-8;
+const int INF=0x3f3f3f3f;
+int main(){
+    int n;
+    cin>>n;
+    if(n%3==0){
+        printf("%d\n",(n*n-3*n+6)/6);
+    }
+    else{
+        printf("%d\n",(n*n-3*n+2)/6);
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n-1;j++){
+            int z1=n-i-j,z2=2*n-i-j;
+            if(z1>j&&z1<n){
+                printf("%d %d %d\n",i+1,j+1,z1+1);
+            }
+            if(z2>j&&z2<n){
+                printf("%d %d %d\n",i+1,j+1,z2+1);
+            }
+        }
+    }
+}
+
+```
