@@ -73,3 +73,202 @@ E和I题感觉在签到题里面算是比较难的了，基本上开出这两个
 所以我们要做的就是遍历一遍车队，用时最长的就是答案，因为这样说明最后的车队一定会接在这个车的后面，统一按照这个车的车速走。
 
 还有一道dp + SAM...有机会看看。
+
+
+
+## 11.6
+
+练习了一次HDU的比赛，最后一道网络流理论模型建立得已经差不多了，结果卡在了建图上...
+
+自己过的两题，一个是签到题，还有一个假的Fibonaci：
+
+$\begin{drcases} dp[i] = dp[i - 1] & \text{if} & str[i] = str[i - 1] \\ dp[i] = dp[i - 1] + dp[i - 2] & \text{if} & str[i] \not= str[i - 1] \end{drcases}$
+
+
+
+## 11.7
+
+做了一场Edu Div2的比赛。
+
+### [B - Groups](https://vjudge.net/problem/CodeForces-1598B)
+
+数据比较小可以直接暴力枚举，可以发现，如果我们选了$a$和$b$这两天作为上课的时间。那么这一天有空的人数之和减去这两天都有空的人数就是$2n$。判断一下就可以了。
+
+### [C - Delete Two Elements](https://vjudge.net/problem/CodeForces-1598C)
+
+我感觉这个题其实放一般的Div2能到1400左右。Edu的题目确实也偏难。
+
+如果这$n$个数的和是$sum$，平均值是$val$，如果满足存在两个数满足$\frac{sum -a -b}{n - 2} = val$，那么就有$\frac{sum}{n} = \frac{sum - a - b}{n - 2}$。于是可以得出：$\frac{a + b}{2} = \frac{sum}{n}$。所以我们要做的就是，统计一下每个数出现的次数，然后遍历一次是否存在$a+b=2\times val$的情况，注意这里统计一次之后需要做一次清零工作，不然会出现重复。同时$a_i$的范围过大，再做一次离散化。
+
+```cpp
+//This code is written by Kyrie Qi
+//QQ : 601383880
+//Email : cuc_qzl@cuc.edu.cn
+
+#include <bits/stdc++.h>
+
+#define ill __int128
+#define ll long long
+#define PII pair <ll,ll>
+#define ull unsigned long long
+#define me(a,b) memset (a,b,sizeof(a))
+#define rep(i,a,b) for (int i = a;i <= b;i ++)
+#define req(i,a,b) for (int i = a;i >= b;i --)
+#define debug(x) cout << #x << ' ' << x << endl
+#define ios std :: ios :: sync_with_stdio(false)
+
+const double Exp = 1e-9;
+const int INF = 0x3f3f3f3f;
+const int inf = -0x3f3f3f3f;
+const int mode = 1000000007;
+const double pi = acos(-1.0);
+
+using namespace std;
+
+const int maxn = 2e5 + 13;
+int t, n, a[maxn], b[maxn], nn;
+ll sum, ans, mp[maxn << 1];
+double k;
+map<int, bool> flag;
+
+inline bool cmp(int a, int b)
+{
+	return a < b;
+}
+
+inline void init()
+{
+	ans = sum = 0;
+	me (mp, 0ll);
+	flag.clear();
+	return ;
+}
+
+int main()
+{
+	scanf ("%d", &t);
+	while (t -- ) {
+		init();
+		scanf ("%d", &n);
+		rep(i, 1, n) {
+			scanf ("%d", &a[i]);
+			flag[a[i]] = 1;
+			b[i] = a[i];
+			sum += a[i];
+		}
+		sort (a + 1, a + 1 + n, cmp);
+		nn = unique(a + 1, a + 1 + n) - (a + 1);
+		k = (1.0 * sum) / (1.0 * n);
+		// debug(k);
+		if ((k - 0.5) != (int)k && (int)k != k) {
+			printf ("0\n");
+			continue;
+		}
+		for (int i = 1;i <= n;i ++) {
+			int tmp = lower_bound(a + 1, a + 1 + nn, b[i]) - a;
+			mp[tmp] ++;
+		}
+		int tal = 2 * k;
+		for (int i = 1;i <= n;i ++) {
+			int k1 = lower_bound(a + 1, a + 1 + nn, b[i]) - a;
+			int k2 = lower_bound(a + 1, a + 1 + nn, tal - b[i]) - a;
+			// debug(k1);
+			// debug(k2);
+			if (!flag[tal - b[i]]) continue;
+			if (k1 == k2) {
+				ans += (mp[k1] * (mp[k1] - 1)) / 2; 
+				mp[k1] = 0;
+			} 
+			else {
+				ans += mp[k1] * mp[k2];
+				mp[k1] = mp[k2] = 0;
+			}
+			// debug(ans);
+		}
+		printf ("%lld\n", ans);
+	}
+	return 0;
+}
+
+/*
+1
+7
+8 7 4 6 2 1 7
+*/
+```
+
+### [D - Training Session](https://vjudge.net/problem/CodeForces-1598D)
+
+ 退而求其次，先求不能满足题意的，最后拿总方案数减去就行。
+
+但是这里有一个思路不好想：
+
+对于一个二元组$<a,b>$，当它被选中的时候，存在的方案数是：$ (mp[a] - 1)\times(mp[b]-1)$
+
+所以我们遍历一次每一个二元组，统计一次答案，最后用$\frac{n(n-1)(n-2)}{6}$减去就是正确答案。
+
+注意这里的$mp$要开$long long$
+
+```cpp
+//This code is written by Kyrie Qi
+//QQ : 601383880
+//Email : cuc_qzl@cuc.edu.cn
+
+#include <bits/stdc++.h>
+
+#define ill __int128
+#define ll long long
+#define PII pair <ll,ll>
+#define ull unsigned long long
+#define me(a,b) memset (a,b,sizeof(a))
+#define rep(i,a,b) for (int i = a;i <= b;i ++)
+#define req(i,a,b) for (int i = a;i >= b;i --)
+#define debug(x) cout << #x << ' ' << x << endl
+#define ios std :: ios :: sync_with_stdio(false)
+
+const double Exp = 1e-9;
+const int INF = 0x3f3f3f3f;
+const int inf = -0x3f3f3f3f;
+const int mode = 1000000007;
+const double pi = acos(-1.0);
+
+using namespace std;
+
+const int maxn = 2e5 + 9;
+int t;
+ll n;
+unordered_map<int, ll> mpx, mpy;
+
+struct Edge 
+{
+	int x, y;
+}a[maxn];
+
+inline void init()
+{
+	mpx.clear();
+	mpy.clear();
+	return ;
+}
+
+int main()
+{
+	scanf ("%d", &t);
+	while (t --) {
+		init();
+		scanf ("%lld", &n);
+		rep(i, 1, n) {
+			scanf ("%d%d", &a[i].x, &a[i].y);
+			mpx[a[i].x] ++;
+			mpy[a[i].y] ++;
+		}
+		ll ans = (n * (n - 1) * (n - 2)) / 6;
+		rep(i, 1, n) ans -= (mpx[a[i].x] - 1ll) * (mpy[a[i].y] - 1ll);
+		printf ("%lld\n", ans);
+	}
+	return 0;
+}
+```
+
+
+
