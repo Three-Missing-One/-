@@ -69,3 +69,11 @@
     关键是找出可能的最小值与最大值可以怎么走，然后可以怎么加1
 ### 晚上
 &ensp;&ensp;准备编译原理的实验展示。
+## 11.8
+### 下午
+编译原理
+### 晚上
+* [Orac and LCM](https://codeforces.com/problemset/problem/1349/A)
+    质数因子分解,用lcm，gcd性质解题。
+* [Yet Another Counting Problem](https://codeforces.com/problemset/problem/1342/C)
+    这道题想了一个思路，写了很久,写崩了，边界条件处理，越写越复杂。最后看了下官方题解，没这么复杂,明天再补把。
