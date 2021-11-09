@@ -49,3 +49,31 @@
 [D. Moderate Modular Mode](https://codeforces.com/contest/1604/problem/D)
 这道题关键是分类讨论出一个n的限制
 然后开始弄编译原理了，周一截止。
+## 11.5
+### 下午：
+下午通识课
+### 晚上：
+看了一晚上编译原理实验，周一截止了。
+## 11.6
+### 下午：
+下午打了一场比赛，数论专题训练还需要加强。没看出来那道爬楼梯的题，背锅。
+### 晚上：
+晚上回宿舍看edg夺冠了。
+
+## 11.7
+### 下午
+下午刷了几道CF数学题,开始专题练下数学,准备从1600开始一直刷数学把。
+* [C. Circle of Monsters](https://codeforces.com/problemset/problem/1334/C)
+    需要写出答案的公式，破环成链，用公式证明选那个位置开始最优。
+* [C. Celex Update](C. Celex Update)
+    关键是找出可能的最小值与最大值可以怎么走，然后可以怎么加1
+### 晚上
+&ensp;&ensp;准备编译原理的实验展示。
+## 11.8
+### 下午
+编译原理
+### 晚上
+* [Orac and LCM](https://codeforces.com/problemset/problem/1349/A)
+    质数因子分解,用lcm，gcd性质解题。
+* [Yet Another Counting Problem](https://codeforces.com/problemset/problem/1342/C)
+    这道题想了一个思路，写了很久,写崩了，边界条件处理，越写越复杂。最后看了下官方题解，没这么复杂,明天再补把。
