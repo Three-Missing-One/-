@@ -77,3 +77,21 @@
     质数因子分解,用lcm，gcd性质解题。
 * [Yet Another Counting Problem](https://codeforces.com/problemset/problem/1342/C)
     这道题想了一个思路，写了很久,写崩了，边界条件处理，越写越复杂。最后看了下官方题解，没这么复杂,明天再补把。
+## 11.9
+### 上午
+* [Yet Another Counting Problem](https://codeforces.com/problemset/problem/1342/C)
+    确实没那么复杂，一个简单循环就行了，最开始是用自己推的一个公式算，边界实在是太难处理了
+* [C2. k-LCM (hard version)](https://codeforces.com/problemset/problem/1497/C2)
+    构造题,先想出最小的范围的情况怎么解，然后应用到大范围。
+* [Row GCD](https://codeforces.com/problemset/problem/1458/A)
+    用一个gcd的公式，注意算出gcd为负数的情况，取决对值即可
+* [D. Almost All Divisors](https://codeforces.com/problemset/problem/1165/D)
+    最小因数*最大因数，再判断即可
+
+### 晚上
+
+* [C. Kuroni and Impossible Calculation](https://codeforces.com/problemset/problem/1305/C)
+    小范围暴力，大范围不用算
+* [Mafia](https://codeforces.com/problemset/problem/348/A)
+    有点坑,注意会整数溢出，需要特殊处理一下
+    然后，就去干编译原理的实验汇报了。
