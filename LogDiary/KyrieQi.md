@@ -292,3 +292,19 @@ int main()
 
 明天再去看看
 
+
+
+## 11.11
+
+白天满课QAQ。
+
+晚上补过了之前的网络赛的题目，然后写了两个题解。
+
+感觉两个题都是好题，尤其是STL那道真的综合，二分的题目确实细节考察也到位了。
+
+附上两个题解：
+
+[Plants vs. Zombies 解题报告](https://blog.csdn.net/weixin_45671402/article/details/121276765?spm=1001.2014.3001.5502)
+
+[Monopoly 解题报告](https://blog.csdn.net/weixin_45671402/article/details/121276326?spm=1001.2014.3001.5502)
+
