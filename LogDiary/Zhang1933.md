@@ -95,3 +95,12 @@
 * [Mafia](https://codeforces.com/problemset/problem/348/A)
     有点坑,注意会整数溢出，需要特殊处理一下
     然后，就去干编译原理的实验汇报了。
+## 11.10
+### 上午
+忘了周三上午还有课，索性懒得去了。
+* [D.Maximum Sum of Products](https://codeforces.com/problemset/problem/1519/D)
+    区间dp水题,注意边界判断
+### 下午
+组队打了场比赛,写了道大模拟的题，大模拟写崩了。
+### 晚上
+写操作系统作业，明天交了。
