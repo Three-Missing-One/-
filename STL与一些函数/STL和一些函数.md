@@ -1,30 +1,18 @@
-## 目录 <!-- omit in toc -->
-- [vector](#vector)
-    - [注意](#注意)
-- [set & multiset & unordered_set](#set--multiset--unordered_set)
-    - [注意](#注意-1)
-- [stack](#stack)
-    - [注意](#注意-2)
-- [queue](#queue)
-    - [注意](#注意-3)
-- [priority_queue（优先队列）](#priority_queue优先队列)
-- [deque（双向队列）](#deque双向队列)
-- [map & multimap & unordered_map](#map--multimap--unordered_map)
-    - [三种插入操作示例](#三种插入操作示例)
-    - [注意](#注意-4)
-- [list](#list)
-- [bitset](#bitset)
-- [lower_bound & upper_bound](#lower_bound--upper_bound)
-    - [注意](#注意-5)
-- [pair](#pair)
-    - [使用sort对pair类型进行排序](#使用sort对pair类型进行排序)
-- [unique](#unique)
-- [string](#string)
-  - [substr ：](#substr-)
-  - [replace 操作](#replace-操作)
-  - [find](#find)
-- [其他](#其他)
-    - [注意](#注意-6)
+---
+documentclass:
+    - ctexart
+geometry: "left=1cm,right=1cm,top=2cm,bottom=1cm"
+header-includes:
+ - \usepackage{fvextra}
+ - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+
+
+[TOC]
+
+# STL 和一些函数
+
+
 ## vector
 | 用法                      | 含义                                                                                                |
 | ------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -47,7 +35,7 @@
 | v.resize(n, val)          | 改变序列的长度，超出的元素将会被删除，如果序列需要扩展（原空间小于n），将用val填满扩展出的空间      |
 | v.swap(v2)                | 将s与另一个vector对象v2进行交换                                                                     |
 | v.assign(first, last)     | 将序列替换成由迭代器first和last所指定的序列[first, last), [first, last)不能是原序列中的一部分       |
-#### 注意
+### 注意
 * vector不自带v.find()函数
 
 ## set & multiset & unordered_set
@@ -71,7 +59,8 @@
 | s.swap(s2)          | 交换两个集合变量                                     |
 | s.upper_bound(val)  | 返回大于val值元素的迭代器                            |
 | s.lower_bound(val)  | 返回指向大于（或等于）val值的第一个元素的迭代器      |
-#### 注意
+### 注意
+
 * set无法用下标访问，迭代器也不能进行数的加减，无法直接访问第k个元素
 * set/multiset自动有序，无法使用排序函数
 * unordered_set只能使用前向迭代器
@@ -86,7 +75,9 @@
 | st.push(val) | 在栈顶增加元素val |
 | st.size()    | 返回栈中元素数目  |
 | st.top()     | 返回栈顶元素      |
+
 #### 注意
+
 * 栈满足先入后出原则
 
 ## queue
@@ -138,6 +129,7 @@
 | d.size()                  | 返回容器中实际元素的个数                                 |
 
 ## map & multimap & unordered_map
+
 | 用法                         | 含义                                                  |
 | ---------------------------- | ----------------------------------------------------- |
 | mp[0] = x                    | 利用数组方式插入数据，0是键，x是值                    |
@@ -155,7 +147,9 @@
 | mp.swap(mp2)                 | 将mp和mp2进行交换                                     |
 | mp.lower_bound(key)          | 返回map中第一个大于或等于key的迭代器指针              |
 | mp.upper_bound(key)          | 返回map中第一个大于key的迭代器指针                    |
+
 #### 三种插入操作示例
+
 ```cpp
     map<int, string> mapStudent;  
     mapStudent[0] = "student_zero";
@@ -163,11 +157,13 @@
     mapStudent.insert(map<int, string>::value_type (2, "student_two"));  
 ```
 #### 注意
+
 * map的键值key不可重复，具有严格的一一对应关系，而multimap可以一个键对应多个值
 * map支持[ ]运算符，multimap不支持[ ]运算符
 * map/multimap中的元素是自动按key升序排序，不能使用sort函数
 
 ## list
+
 | 用法                          | 含义                                                                  |
 | ----------------------------- | --------------------------------------------------------------------- |
 |l.begin()|返回链表首地址|
@@ -286,12 +282,149 @@ int main ()
     position 1:1
     position 2:21
     position 3:36
-    /*
+    */
 ```
 
 ## 其他
 * __builtin_popcount() 计算一个数字的二进制中有多少个1，返回值1的个数。
+
 * __gcd() 自带gcd    
+
 #### 注意
+
 * 以上可能不让用
 
+## 一些函数
+
+### __int128
+&ensp;&ensp;__int128在gcc、codeblocks、vs2017都是不被支持的，不过__int128在Linux上可以编译并且能用。
+
+```cpp
+##include<iostream>
+using namespace std;
+inline __int128 read(){
+    __int128 x = 0, f = 1;
+    char ch = getchar();
+    while(ch < '0' || ch > '9'){
+        if(ch == '-')
+            f = -1;
+        ch = getchar();
+    }
+    while(ch >= '0' && ch <= '9'){
+        x = x * 10 + ch - '0';
+        ch = getchar();
+    }
+    return x * f;
+}
+inline void print(__int128 x){
+    if(x < 0){
+        putchar('-');
+        x = -x;
+    }
+    if(x > 9)
+        print(x / 10);
+    putchar(x % 10 + '0');
+}
+int main(void){
+    __int128 a = read();
+    __int128 b = read();
+    print(a + b);
+    cout << endl;
+    return 0;
+}
+```
+### strchr
+C 库函数 char *strchr(const char *str, int c) 在参数 str 所指向的字符串中搜索第一次出现字符 c（一个无符号字符）的位置。
+
+#### 函数原型：
+```cpp
+char *strchr(const char *str, int c)
+```
+str -- 要被检索的 C 字符串。c -- 在 str 中要搜索的字符。函数返回在字符串 str 中第一次出现字符 c 的位置(地址)，如果未找到该字符则返回 NULL。
+#### 示例
+```cpp
+##include <stdio.h>
+##include <string.h>
+int main (){
+   const char str[] = "http://www.runoob.com";
+   const char ch = '.';
+   char *ret;
+   ret = strchr(str, ch);
+   printf("|%c| 之后的字符串是 - |%s|\n", ch, ret);
+   return(0);
+}
+```
+结果：
+```
+|.| 之后的字符串是 - |.runoob.com|
+```
+
+### 关于`sscanf`
+
+一个字符串中读进与指定格式相符的数据。字符串操作是平常用途之多，截取，追加等等。也经常从文件中读取一行，取出所需要的字符串。基本有些是固定格式的。都可以用`sscanf`来得到。
+
+例如：
+
+```cpp
+sscanf(line, "%[A-Z]%d", t, &r);
+sscanf(line,"R%dC%d", &r, &c);
+```
+
+上述知识点可参见`Codeforces 1B`
+
+https://vjudge.net/contest/387797#problem/B
+
+### stringstream类
+
+构造：
+```c
+stringstream::str (const string& s); 
+```
+sets s as the contents of the stream, discarding any previous contents.
+
+3.stringstream清空，
+```c
+stringstream s; s.str("");
+```
+示例：将字符串"1 2 3 4 5"依次输入
+```c
+while(ss>>x)a[n++]=x;
+```
+
+### memcpy 函数
+```cpp
+int src[6][3]={{1,2,3},{4,5,6},{7,8,9},{1,2,3},{4,5,6},{7,8,9}};  
+int des[6][3];//要小心，行数固定
+memcpy(des,src,sizeof(src));
+```
+
+### __builtin_popcount()用于计算一个 32 位无符号整数有多少个位为1
+
+Counting out the bits
+可以很容易的判断一个数是不是2的幂次：清除最低的1位（见上面）并且检查结果是不是0.尽管如此，有的时候需要直到有多少个1被设置了，这就相对有点难度了。
+
+GCC有一个叫做__builtin_popcount的内建函数，它可以精确的计算1的个数。尽管如此，不同于__builtin_ctz，它并没有被 翻译成一个硬件指令（至少在x86上不是）。相反的，它使用一张类似上面提到的基于表的方法来进行位搜索。这无疑很**高效**并且非常方便。
+
+其他语言的使用者没有这个选项（尽管他们可以重新实现这个算法）。如果一个数只有很少的1的位，另外一个方法是重复的获取最低的1位，并且清除它。
+
+```cpp
+for(int i = 1;i <= 100; i++){
+		cout<<__builtin_popcount(i)<<endl;
+	}
+```
+# 计时
+```cpp
+#include <chrono>   
+using namespace std;
+using namespace chrono;
+
+auto start = system_clock::now();
+
+// do something...
+
+auto end   = system_clock::now();
+auto duration = duration_cast<microseconds>(end - start);
+cout <<  "花费了" 
+	<< double(duration.count()) * microseconds::period::num / microseconds::period::den 
+	<< "秒" << endl;
+```

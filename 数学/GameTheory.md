@@ -3,6 +3,7 @@ documentclass:
     - ctexart
 ---
 
+[TOC]
 
 ## 巴什博弈
 ### 原型
