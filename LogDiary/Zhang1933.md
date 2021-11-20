@@ -175,4 +175,5 @@
 
 * [CodeForces 1186C	Vus the Cossack and Strings] 
    Hamming distance  ，确实没想到。原来算汉明距离还可以用cnta+cntb-2*x来算。虽然根本没想到这是汉明距离。
-
+### 晚上
+ 晚上把网路安全视频看了下，挂了场数学题单,看了3倒题，还没有思路。
