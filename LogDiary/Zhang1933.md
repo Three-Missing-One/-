@@ -233,7 +233,10 @@
 白天一天上课
 
 ### 晚上
-威海J. Circular Billiard Table
+
+2021 威海补题
+
+J. Circular Billiard Table
 
 数学，注意中途爆long long 的情况，先除再乘。
 
@@ -244,7 +247,8 @@
 ## 11.26
 
 ### 下午 
-ccpc 广州站补题
+
+2021 ccpc 广州站补题
 * I. Pudding Store
 
 打表找规律
