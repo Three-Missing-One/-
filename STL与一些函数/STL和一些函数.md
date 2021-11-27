@@ -10,7 +10,7 @@ header-includes:
 
 [TOC]
 
-# STL 和一些函数
+# STL 和一些函数与一些模板题
 
 
 ## vector
@@ -427,4 +427,289 @@ auto duration = duration_cast<microseconds>(end - start);
 cout <<  "花费了" 
 	<< double(duration.count()) * microseconds::period::num / microseconds::period::den 
 	<< "秒" << endl;
+```
+
+# Windows对拍
+
+在代码中增加
+
+```cpp
+    freopen("input0.in","r",stdin);
+    freopen("output01.out","w",stdout);//两份代码output01要改成不同的文件
+    
+    fclose(stdin);
+    fclose(stdout);
+```
+
+## 对拍c++代码
+```cpp
+//CheckData.cpp
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<string.h>
+#include<random> 
+#include<algorithm>
+#include <chrono>
+#define ll long long 
+#define mmset(a,b) memset(a,b,sizeof(a))
+using namespace std;
+using namespace chrono;
+const int INF = 0x3f3f3f3f; 
+const int MaxnN=1e5,Maxn=10;
+mt19937 rng;  //声明一个随机生成器 
+template <typename T>
+T RandomData(T a, T b){
+    uniform_int_distribution<T> dist6(a, b); //指定范围 
+	return dist6(rng);
+}
+ 
+void makeData(){
+	FILE* fp=fopen("input0.in","w");
+	int t = RandomData(1,Maxn);
+	int n = RandomData(1,Maxn);
+	//printf("%d\n",t); 
+	fprintf(fp,"%d\n",t);//fprintf 从文件中写数据进去
+	fprintf(fp,"%d\n",n);//模拟手动输入写文件
+	for(int i=1;i<=n;i++){
+		int a=RandomData(1,Maxn);
+		int b=RandomData(1,Maxn);
+		fprintf(fp,"%d %d\n",a,b);
+	}
+	fclose(fp);
+} 
+int main(){
+	rng.seed(time(0));     //将时间作为随机生成器随机种子 
+	for(int i = 1; i < 50; i++){
+		makeData();//生成数据，一共生成循环这么多次 
+		system("01.exe");
+		system("02.exe");
+		printf("Number:%d\n",i);
+		//比较数据 
+		if(system("fc output01.out output02.out"))
+        {
+            printf("Wrong Asnwer\n");
+            break;
+        } 
+	}
+	return 0;
+} 
+```
+
+# 模板题
+
+##  中缀表达式求值
+  
+```cpp
+/*
+中缀表达式求值，有两种做法：
+1. 转换为后缀表达式再求值：O(N)
+注意这个题目还要处理负数的符号位的情况，例如 -3+1
+- 到底是负号还是减号?
+特例：
+((((((-1)
+(-1)))
+(1+2)^((-1+1))
+包括可能括号不匹配的情况;
+^ 次方
+  
+*/
+#include <cmath>
+#include <iostream>
+#include <vector>
+using namespace std;
+  
+vector<int> nums;
+vector<char> ops;
+string s;
+  
+// 优先级
+int grade(char op) {
+    switch (op) {
+        case '(':
+            return 1;
+        case '+':
+        case '-':
+            return 2;
+        case '*':
+        case '/':
+            return 3;
+        case '^':
+            return 4;
+    }
+    return 0;
+}
+// 处理后缀表达式中的一个运算符
+void calc(char op) {
+    // 从栈顶取出两个数
+    int y = nums.back();
+    nums.pop_back();
+    int x = 0;
+    // 如果出现负号的情况：
+    // 1. 可能没有多的操作数了，前一个操作数当做 0 看待
+    // 2. 可能前面是左括号 (，需要先把这个负数计算出来（0 - y = -y）
+    if (nums.size() && !(op == '-' && ops.size() && ops.back() == '(')) {
+        x = nums.back();
+        nums.pop_back();
+    }
+    int z;
+    switch (op) {
+        case '+':
+            z = x + y;
+            break;
+        case '-':
+            z = x - y;
+            break;
+        case '*':
+            z = x * y;
+            break;
+        case '/':
+            z = x / y;
+            break;
+        case '^':
+            z = pow(x, y);
+    }
+    // cout << x << op << y << " = " << z << endl;
+    // 把运算结果放回栈中
+    nums.push_back(z);
+}
+int main() {
+    cin >> s;
+    int val = 0;
+    for (int i = 0; i < s.length(); i++) {
+        // 多位数， 并且表达式是使用字符串逐字符存储的，我们只需要稍加判断，把连续的一段数字看成一个数即可。
+        if (s[i] >= '0' && s[i] <= '9') {
+            val = val * 10 + s[i] - '0';
+            if (s[i + 1] >= '0' && s[i + 1] <= '9') continue;
+            // 后缀表达式的一个数，直接入栈
+            nums.push_back(val);
+            val = 0;
+        }
+        // 左括号：直接入栈
+        else if (s[i] == '(')
+            ops.push_back('(');
+        // 右括号：一直出栈直到遇见左括号
+        else if (s[i] == ')') {
+            while (ops.size() && ops.back() != '(') {
+                // 出栈一个符号就计算一下
+                char op = ops.back();
+                ops.pop_back();
+                calc(op);
+            }
+            // 左括号出栈（如果有的话）
+            if (ops.size()) ops.pop_back();
+        }
+        // 运算符：只要栈顶符号的优先级不低于新符号，就不断取出栈顶并输出，最后把新符号进栈，其实只在这里使用了优先级的比较
+        else {
+            while (ops.size() && grade(ops.back()) >= grade(s[i])) {
+                char op = ops.back();
+                ops.pop_back();
+                calc(op);
+            }
+            ops.push_back(s[i]);
+        }
+    }
+    // 剩下符号再计算一下
+    while (ops.size() && nums.size() >= 2) {
+        char op = ops.back();
+        ops.pop_back();
+        calc(op);
+    }
+    // 后缀表达式栈中最后剩下的数就是答案
+    cout << nums.front() << endl;
+    return 0;
+}
+  
+```
+
+## 二维Hash,求在大矩阵中小矩阵存在问题
+
+给定一个 M 行 N 列的 01 矩阵（只包含数字 0 或 1 的矩阵），再执行 Q 次询问，每次询问给出一个 A 行 B 列的 01 矩阵，求该矩阵是否在原矩阵中出现过。
+
+A<100，M,N,B<1000，Q<1000
+
+```cpp
+#include <ctime>
+#include <cstdlib>
+#include<iostream>
+#include<algorithm>
+#include<math.h>
+#include<cstdio>
+#include<string>
+#include<string.h>
+#include<list>
+#include<queue>
+#include<sstream>
+#include<vector>
+#include <cassert>   // assert
+#include<set>
+#include<map>
+#include<deque>
+#include<stack>
+#include<unordered_set>
+using namespace std;
+#define debug(x) cout<<"###"<<x<<"###"<<endl;
+const int INF=0x3f3f3f3f,mod=1e9,Maxn=1e6+5;
+const double eps=1e-8;
+typedef long long ll;
+typedef unsigned long long ull;
+ull p[Maxn],hs[Maxn];
+const ull base = 131;
+ull Hash[1003][1003];
+int n,m,a,b;
+void init(){
+    p[0] = 1;
+    for(int i=1;i<Maxn;i++){
+            p[i] = p[i-1]*base;
+    }
+}
+ull GetHash(ull *h,int l,int r ){
+	return h[r]-h[l-1]*p[r-l+1];//一维上的Hash处理
+} 
+
+unordered_set<ull> st;
+int main(){
+	init();
+    cin>>m>>n>>a>>b;//m*n大矩阵，a*b小矩阵
+    ull ch;
+    for(int i=1;i<=m;i++){
+        for(int j=1;j<=n;j++){
+           scanf("%1d",&ch);
+           Hash[i][j]=Hash[i][j-1]*base+(ull)ch;
+           //计算每一行Hash
+        }
+    }
+    for(int i=b;i<=n;i++){
+        int l=i-b+1,r=i;
+        ull s=0;
+        for(int j=1;j<=m;j++){
+            s=s*p[b]+GetHash(Hash[j],l,r);
+            if(j>a){
+                s-=GetHash(Hash[j-a],l,r)*p[a*b];
+            }
+            if(j>=a){
+                st.insert(s);
+			}
+        }
+    }    
+    int q;
+    cin>>q;
+    while(q--){
+        ull s=0;
+        for(int i=1;i<=a;i++){
+            for(int j=1;j<=b;j++){
+                scanf("%1d",&ch);
+                //debug(ch);
+                s=s*base+ch;
+            }//依次计算小矩阵Hash
+        }
+        if(st.count(s)){
+            cout<<1<<endl;
+        }
+        else{
+            cout<<0<<endl;
+        }
+    }
+    return 0;
+}
 ```
